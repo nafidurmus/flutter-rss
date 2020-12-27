@@ -3,6 +3,7 @@ import 'package:webfeed/webfeed.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert' show utf8;
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:webview_flutter/webview_flutter.dart';
 
 class RssHomePage extends StatefulWidget {
   RssHomePage({Key key}) : super(key: key);
@@ -60,7 +61,10 @@ class _RssHomePageState extends State<RssHomePage> {
             GestureDetector(
               // birazdan haberin üzerine tıklayınca haber ayrıntılarına gitmek için kullanacağız.
               onTap: () {
-                print('yönlendirme');
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => ShowNews(item: item)),
+                );
               },
               child: Card(
                 shape: RoundedRectangleBorder(
@@ -122,6 +126,23 @@ class _RssHomePageState extends State<RssHomePage> {
         centerTitle: true,
       ),
       body: body(),
+    );
+  }
+}
+
+class ShowNews extends StatelessWidget {
+  final item;
+  const ShowNews({Key key, this.item}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: Text(item.title),
+      ),
+      body: WebView(
+        initialUrl: item.link,
+      ),
     );
   }
 }
