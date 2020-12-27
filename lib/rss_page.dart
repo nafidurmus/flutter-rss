@@ -4,6 +4,7 @@ import 'package:http/http.dart' as http;
 import 'dart:convert' show utf8;
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:webview_flutter/webview_flutter.dart';
+import 'package:share/share.dart';
 
 class RssHomePage extends StatefulWidget {
   RssHomePage({Key key}) : super(key: key);
@@ -139,8 +140,20 @@ class ShowNews extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         title: Text(item.title),
+        actions: [
+          IconButton(
+            icon: Icon(
+              Icons.share,
+              color: Colors.white,
+            ),
+            onPressed: () {
+              Share.share(item.link);
+            },
+          )
+        ],
       ),
       body: WebView(
+        //javascriptMode: JavascriptMode.unrestricted,
         initialUrl: item.link,
       ),
     );
